@@ -25,7 +25,7 @@ base_products %>% inner_join(base_order_items, by = 'product_id')  %>%
                   summarize(media_avaliacao = mean(review_score)) %>%
                   arrange(media_avaliacao) %>% collect %>% print()
 
-# R : seguros_e_servicos 2.5 é a categoria de produtos que possui a pior avaliação média 
+# R : a categoria seguros_e_servicos (2.)5 é a categoria de produtos que possui a pior avaliação 
 
 ## Qual a categoria que possui o maior score de avaliação ?
 
@@ -43,4 +43,4 @@ base_products %>% group_by(product_category_name) %>%
                  summarize(qtd_produtos = n()) %>%
                  arrange(desc(qtd_produtos)) %>% collect() %>% print()
 
-# R : A categoria que possui mais produtos é cama_mesa_banho 3.029
+# R : A categoria que possui mais produtos é cama_mesa_banho com 3.029 produtos
