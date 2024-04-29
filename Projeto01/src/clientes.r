@@ -77,8 +77,7 @@ base_customers %>% inner_join(base_orders, by = "customer_id") %>%
 
 # Qual é o cliente que possui mais pedidos ?
 
-# Relação 1 para 1?
-base_customers %>% inner_join(base_orders, by = "customer_id") %>%
+base_customers %>%
   group_by(customer_id
   ) %>% summarize(
     qtd_pedidos = n()
