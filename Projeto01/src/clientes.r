@@ -23,7 +23,7 @@ base_orders$ano_mes <- format(as.Date(base_orders$order_purchase_timestamp), "%Y
 base_reviews <- open_dataset(caminho_reviews, format = "csv")
 print(base_reviews)
 
-# Fazendo innver join entre a base de clientes e pedidos, 
+# Fazendo inner join entre a base de clientes e pedidos, 
 # depois estou agrupamento por cidade e ano mês ("AAAA-MM") e ordernando pela quantidade de pedidos
 
 base_customers %>% inner_join(base_orders, by = "customer_id") %>%
@@ -77,6 +77,7 @@ base_customers %>% inner_join(base_orders, by = "customer_id") %>%
 
 # Qual é o cliente que possui mais pedidos ?
 
+# Relação 1 para 1?
 base_customers %>% inner_join(base_orders, by = "customer_id") %>%
   group_by(customer_id
   ) %>% summarize(
