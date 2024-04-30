@@ -14,23 +14,21 @@ print(base_customers)
 base_orders <- open_dataset(caminho_orders, format = "csv")
 print(base_orders)
 
+base_reviews <- open_dataset(caminho_reviews, format = "csv")
+print(base_reviews)
 
 # Qual a cidade que possui clientes com menos pedidos para cada mês do ano?
 
-base_orders$order_purchase_timestamp <- as.Date(base_orders$order_purchase_timestamp)
-base_orders$ano_mes <- format(as.Date(base_orders$order_purchase_timestamp), "%Y-%m")
-
-base_reviews <- open_dataset(caminho_reviews, format = "csv")
-print(base_reviews)
 
 # Fazendo inner join entre a base de clientes e pedidos, 
 # depois estou agrupamento por cidade e ano mês ("AAAA-MM") e ordernando pela quantidade de pedidos
 
 base_customers %>% inner_join(base_orders, by = "customer_id") %>%
-  group_by(customer_city, ano_mes
+  mutate(calc_safra_ano_mes = year(order_purchase_timestamp)*100 + month(order_purchase_timestamp)) %>%
+  group_by(customer_city, calc_safra_ano_mes
 ) %>% summarize(
                 qtd_pedidos = n()
-) %>% arrange(qtd_pedidos, desc(ano_mes)) %>% collect() %>% print()
+) %>% arrange(qtd_pedidos, desc(calc_safra_ano_mes)) %>% collect() %>% print()
 
 
 # Acabei cosiderando as top 10 cidades com menos pedidos de acordo com o periodo mais recentes
@@ -48,9 +46,6 @@ base_customers %>% inner_join(base_orders, by = "customer_id") %>%
 #9 rio de janeiro 2018-09           1
 #10 santa luzia   2018-09           1
                  
-rm(base_customers)
-rm(base_orders)
-
 # Clientes de qual cidade tendem a dar avaliações piores ?
 
 base_customers %>% inner_join(base_orders, by = "customer_id") %>% 
@@ -83,3 +78,4 @@ base_customers %>%
     qtd_pedidos = n()
   ) %>% arrange(desc(qtd_pedidos)) %>% collect() %>% print()
   
+ 
